@@ -9,7 +9,7 @@
         "format": "prettier --write .",
         "start": "node src/index.js",
         "dev": "nodemon src/index.js",
-        "test": "jest --runInBand"
+        "test": "vitest"
     },
     "keywords": [],
     "author": "",
@@ -28,9 +28,10 @@
         "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-security": "^3.0.1",
         "globals": "^16.4.0",
-        "jest": "^30.2.0",
+        "mongodb-memory-server": "^10.2.2",
         "nodemon": "^3.1.10",
         "prettier": "^3.6.2",
-        "supertest": "^7.1.4"
+        "supertest": "^7.1.4",
+        "vitest": "^3.2.4"
     }
 }
