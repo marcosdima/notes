@@ -1,8 +1,7 @@
 import { Note } from '../models/note.js';
 
 class NoteService {
-    maxContentLenght = Note.noteLimits().contentMax;
-    maxTitleLenght = Note.noteLimits().titleMax;
+    noteLimits = Note.noteLimits();
 
     async getAll() {
         return await Note.find();
