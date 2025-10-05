@@ -3,7 +3,7 @@ import app from '../app.js';
 import { connectTestDB, closeTestDB } from './setup.js';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { noteService } from '../services/noteService.js';
-import { MissingFields, InvalidFields } from '../utils/error.js';
+import { MissingFields, InvalidFields, NotFound } from '../utils/error.js';
 
 const titleTest = 'Test note';
 const contentTest = 'Note content';
@@ -309,6 +309,19 @@ describe('Notes API', () => {
                 expect(res.statusCode).toBe(400);
                 expect(res.body.error).toBe(invalidTagsMessage);
             });
+
+            it('Note does not exists.', async () => {
+                const { _id } = await noteService.create(noteData);
+
+                await noteService.remove(_id);
+
+                const res = await request(app)
+                    .put(`${basePath}/${_id}`)
+                    .send({});
+
+                expect(res.statusCode).toBe(404);
+                expect(res.body.error).toBe(new NotFound(`Note with id '${_id}'`).message);
+            })
         });
     });
 });
