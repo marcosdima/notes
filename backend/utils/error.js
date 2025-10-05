@@ -15,7 +15,7 @@ export class FieldsError extends AppError {
 
 export class MissingFields extends FieldsError {
     constructor(fields = []) {
-        const end = (fields.length <= 1) ? ': ' : 's: ';
+        const end = fields.length <= 1 ? ': ' : 's: ';
         super('Missing field' + end, fields);
         this.name = 'MissingFields';
     }
@@ -23,7 +23,7 @@ export class MissingFields extends FieldsError {
 
 export class InvalidFields extends FieldsError {
     constructor(fields = []) {
-        const end = (fields.length <= 1) ? ': ' : 's: ';
+        const end = fields.length <= 1 ? ': ' : 's: ';
         super('Invalid field' + end, fields);
         this.name = 'InvalidFields';
     }

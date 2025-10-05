@@ -26,16 +26,16 @@ const noteSchema = new mongoose.Schema(
             default: [],
             validate: [
                 {
-                    validator: function (arr)  {
+                    validator: function (arr) {
                         const { tagsMaxCount } = NOTE_LIMITS;
                         return arr.length <= tagsMaxCount;
                     },
                     message: `A note can have at most ${NOTE_LIMITS.tagsMaxCount} tags`,
                 },
                 {
-                    validator: function (arr)  {
+                    validator: function (arr) {
                         const { tagsMaxLength } = NOTE_LIMITS;
-                        return arr.every(tag => tag.length <= tagsMaxLength);
+                        return arr.every((tag) => tag.length <= tagsMaxLength);
                     },
                     message: `Each tag must be at most ${NOTE_LIMITS.tagsMaxLength} characters long`,
                 },
@@ -48,7 +48,7 @@ const noteSchema = new mongoose.Schema(
 );
 
 noteSchema.statics.noteLimits = function () {
-    return { ...NOTE_LIMITS }
+    return { ...NOTE_LIMITS };
 };
 
 export const Note = mongoose.model('Note', noteSchema);

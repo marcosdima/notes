@@ -22,6 +22,6 @@ class NoteService {
     async remove(id) {
         return await Note.findByIdAndDelete(id);
     }
-};
+}
 
-export const noteService = new NoteService()
+export const noteService = new NoteService();

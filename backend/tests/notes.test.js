@@ -74,7 +74,9 @@ describe('Notes API', () => {
                     .post('/api/notes')
                     .send({
                         ...noteData,
-                        content: 'a'.repeat(noteService.noteLimits.contentMax + 1),
+                        content: 'a'.repeat(
+                            noteService.noteLimits.contentMax + 1
+                        ),
                     });
 
                 expect(res.statusCode).toBe(400);
