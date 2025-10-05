@@ -5,29 +5,31 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { noteService } from '../services/noteService.js';
 import { MissingFields, InvalidFields } from '../utils/error.js';
 
+const titleTest = 'Test note';
+const contentTest = 'Note content';
+const tagsTest = ['Tag'];
+const noteData = {
+    title: titleTest,
+    content: contentTest,
+    tags: tagsTest,
+};
+
+const basePath = '/api/notes';
+
 beforeAll(async () => await connectTestDB());
 afterAll(async () => await closeTestDB());
 
 describe('Notes API', () => {
     describe('POST /api/notes', () => {
-        const titleTest = 'Test note';
-        const contentTest = 'Note content';
-        const tagsTest = ['Tag'];
-        const noteData = {
-            title: titleTest,
-            content: contentTest,
-            tags: tagsTest,
-        };
-
         it('With the right fields.', async () => {
-            const res = await request(app).post('/api/notes').send(noteData);
+            const res = await request(app).post(basePath).send(noteData);
             expect(res.statusCode).toBe(201);
             expect(res.body.title).toBe(titleTest);
         });
 
         it('Even with no tags.', async () => {
             const { tags, ...auxData } = noteData;
-            const res = await request(app).post('/api/notes').send(auxData);
+            const res = await request(app).post(basePath).send(auxData);
             expect(res.statusCode).toBe(201);
             expect(res.body.title).toBe(titleTest);
         });
@@ -40,7 +42,7 @@ describe('Notes API', () => {
 
             it('No title.', async () => {
                 const { title, ...auxData } = noteData;
-                const res = await request(app).post('/api/notes').send(auxData);
+                const res = await request(app).post(basePath).send(auxData);
 
                 expect(res.statusCode).toBe(400);
                 expect(res.body.error).toBe(missingTitleMessage);
@@ -48,7 +50,7 @@ describe('Notes API', () => {
 
             it('Empty title.', async () => {
                 const res = await request(app)
-                    .post('/api/notes')
+                    .post(basePath)
                     .send({
                         ...noteData,
                         title: '',
@@ -60,7 +62,7 @@ describe('Notes API', () => {
 
             it('Title too long.', async () => {
                 const res = await request(app)
-                    .post('/api/notes')
+                    .post(basePath)
                     .send({
                         ...noteData,
                         title: 'a'.repeat(noteService.noteLimits.titleMax + 1),
@@ -71,7 +73,7 @@ describe('Notes API', () => {
 
             it('Content too long.', async () => {
                 const res = await request(app)
-                    .post('/api/notes')
+                    .post(basePath)
                     .send({
                         ...noteData,
                         content: 'a'.repeat(
@@ -85,9 +87,23 @@ describe('Notes API', () => {
         });
     });
 
-    it('Should get all notes', async () => {
-        const res = await request(app).get('/api/notes');
-        expect(res.statusCode).toBe(200);
-        expect(Array.isArray(res.body)).toBe(true);
+    describe('GET /api/notes', () => {
+        it('Should return notes', async () => {
+            const res = await request(app).get(basePath);
+            expect(res.statusCode).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+        });
+
+        it('Should get the only note created.', async () => {
+            const note = await noteService.create(noteData);
+            const res = await request(app).get(basePath);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body[0]).toMatchObject({
+                title: note.title,
+                content: note.content,
+                tags: note.tags,
+            });
+        });
     });
 });
