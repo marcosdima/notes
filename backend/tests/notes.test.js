@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../app.js';
 import { connectTestDB, closeTestDB } from './setup.js';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { Note } from '../models/note.js';
+import { noteService } from '../services/noteService.js';
 import { MissingFields, InvalidFields } from '../utils/error.js';
 
 beforeAll(async () => await connectTestDB());
@@ -63,9 +63,8 @@ describe('Notes API', () => {
                     .post('/api/notes')
                     .send({
                         ...noteData,
-                        title: 'a'.repeat(Note.noteLimits().titleMax + 1),
+                        title: 'a'.repeat(noteService.noteLimits.titleMax + 1),
                     });
-
                 expect(res.statusCode).toBe(400);
                 expect(res.body.error).toBe(invalidTitleMessage);
             });
@@ -75,7 +74,7 @@ describe('Notes API', () => {
                     .post('/api/notes')
                     .send({
                         ...noteData,
-                        content: 'a'.repeat(Note.noteLimits().contentMax + 1),
+                        content: 'a'.repeat(noteService.noteLimits.contentMax + 1),
                     });
 
                 expect(res.statusCode).toBe(400);
