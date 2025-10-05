@@ -33,4 +33,4 @@ noteSchema.statics.noteLimits = function () {
     return { ...NOTE_LIMITS };
 };
 
-export default mongoose.model('Note', noteSchema);
+export const Note = mongoose.model('Note', noteSchema);
