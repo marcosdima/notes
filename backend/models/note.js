@@ -20,6 +20,7 @@ const noteSchema = new mongoose.Schema(
             required: true,
             trim: true,
             maxlength: NOTE_LIMITS.contentMax,
+            default: '',
         },
         tags: {
             type: [String],
