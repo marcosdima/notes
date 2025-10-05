@@ -6,25 +6,32 @@ export class AppError extends Error {
     }
 }
 
+export class NotFound extends AppError {
+    constructor(target = 'Object') {
+        super('Not Found: ' + target, 404);
+        this.name = 'Not Found';
+    }
+}
+
 export class FieldsError extends AppError {
     constructor(message, fields) {
-        super(message + fields.join(', ') + '.', 400);
+        const plural = fields.length <= 1 ? '' : 's';
+        const fullMessage = `${message}${plural}: ${fields.join(', ')}.`;
+        super(fullMessage, 400);
         this.name = 'FieldsError';
     }
 }
 
 export class MissingFields extends FieldsError {
     constructor(fields = []) {
-        const end = fields.length <= 1 ? ': ' : 's: ';
-        super('Missing field' + end, fields);
+        super('Missing field', fields);
         this.name = 'MissingFields';
     }
 }
 
 export class InvalidFields extends FieldsError {
     constructor(fields = []) {
-        const end = fields.length <= 1 ? ': ' : 's: ';
-        super('Invalid field' + end, fields);
+        super('Invalid field', fields);
         this.name = 'InvalidFields';
     }
 }
