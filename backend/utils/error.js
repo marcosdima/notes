@@ -23,7 +23,7 @@ export class MissingFields extends FieldsError {
 
 export class InvalidFields extends FieldsError {
     constructor(fields = []) {
-        const end = 's: ' ? fields.length <= 1 : ': ';
+        const end = (fields.length <= 1) ? ': ' : 's: ';
         super('Invalid field' + end, fields);
         this.name = 'InvalidFields';
     }
