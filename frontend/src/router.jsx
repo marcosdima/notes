@@ -1,8 +1,9 @@
 // router.jsx
 import { createBrowserRouter } from 'react-router-dom';
+import { appRoutes } from './utils/routes';
 import App from './App';
-import Home from './components/pages/home/Home';
-import Note from './components/Note';
+import Home from './components/Home';
+import Note from './components/notes/Note';
 import NoteForm from './components/forms/NoteForm';
 
 const routes = [
@@ -11,15 +12,15 @@ const routes = [
         element: <App />,
         children: [
             {
-                path: '/:filter',
+                path: appRoutes.home,
                 element: <Home />,
             },
             {
-                path: '/notes/:id',
+                path: appRoutes.note,
                 element: <Note />,
             },
             {
-                path: '/notes/create/:id',
+                path: appRoutes.noteForm,
                 element: <NoteForm />,
             },
         ],
