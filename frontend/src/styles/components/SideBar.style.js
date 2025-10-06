@@ -16,7 +16,7 @@ export const SideBarButtonStyle = styled.div`
 `;
 
 export const SideBarListStyle = styled.div`
-    border-top: 0.2rem solid ${({ theme }) => theme.colors.border};
+    border-top: ${({ theme }) => theme.border.small };
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -24,5 +24,5 @@ export const SideBarListStyle = styled.div`
 `;
 
 export const SideBarStyle = styled.div`
-    border-right: 0.2rem solid ${({ theme }) => theme.colors.border};
+    border-right: ${({ theme }) => theme.border.small };
 `;
