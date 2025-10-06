@@ -9,7 +9,14 @@ export class AppError extends Error {
 export class NotFound extends AppError {
     constructor(target = 'Object') {
         super('Not Found: ' + target, 404);
-        this.name = 'Not Found';
+        this.name = 'NotFound';
+    }
+}
+
+export class InvalidId extends AppError {
+    constructor(id) {
+        super('Invalid Id: ' + id, 400);
+        this.name = 'InvalidId';
     }
 }
 

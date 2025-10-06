@@ -1,8 +1,21 @@
 import { Router } from 'express';
-import { InvalidFields, MissingFields, NotFound } from '../utils/error.js';
-import { noteService } from '../services/noteService.js';
+import {
+    InvalidFields,
+    InvalidId,
+    MissingFields,
+    NotFound,
+} from '../utils/error.js';
+import { noteService } from '../services/note-service.js';
 
 const notesRouter = Router();
+
+const validateId = (id) => {
+    if (!noteService.validateId(id)) throw new InvalidId(id);
+};
+const validateNoteExists = async (id) => {
+    const exists = await noteService.getById(id);
+    if (!exists) throw new NotFound(`Note with id '${id}'`);
+};
 
 notesRouter.get('/', async (req, res) => {
     res.send(await noteService.getAll());
@@ -30,13 +43,15 @@ notesRouter.put('/:noteId', async (req, res) => {
     const { noteId } = req.params;
     const auxData = {};
 
-    // Validate ids.
-    const exists = await noteService.getById(noteId);
-    if (!exists) throw new NotFound(`Note with id '${noteId}'`);
+    // Validate id.
+    validateId(noteId);
+
+    // Validate existence.
+    await validateNoteExists(noteId);
 
     // Validate data.
     const invalidFields = [];
-    
+
     // If a title was provided...
     if (title !== undefined) {
         if (!noteService.validTitle(title)) invalidFields.push('title');
@@ -54,12 +69,25 @@ notesRouter.put('/:noteId', async (req, res) => {
         if (!noteService.validTags(tags)) invalidFields.push('tags');
         else auxData['tags'] = tags;
     }
-    
+
     if (invalidFields.length > 0) throw new InvalidFields(invalidFields);
     if (Object.entries(auxData).length === 0) throw new MissingFields(['any']);
 
     const noteCreated = await noteService.update(noteId, auxData);
     res.status(201).send(noteCreated);
+});
+
+notesRouter.delete('/:noteId', async (req, res) => {
+    const { noteId } = req.params;
+
+    // Validate id.
+    validateId(noteId);
+
+    // Validate existence.
+    await validateNoteExists(noteId);
+
+    await noteService.remove(noteId);
+    res.status(200).send({ noteId });
 });
 
 export default notesRouter;

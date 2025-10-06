@@ -2,13 +2,19 @@ import request from 'supertest';
 import app from '../app.js';
 import { connectTestDB, closeTestDB } from './setup.js';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { noteService } from '../services/noteService.js';
-import { MissingFields, InvalidFields, NotFound } from '../utils/error.js';
+import { noteService } from '../services/note-service.js';
+import {
+    MissingFields,
+    InvalidFields,
+    NotFound,
+    InvalidId,
+} from '../utils/error.js';
 
 const titleTest = 'Test note';
 const contentTest = 'Note content';
 const tagsTest = [];
-for (let i = 0; i < noteService.noteLimits.tagsMaxCount; i++) tagsTest.push(`Tag ${i}`);
+for (let i = 0; i < noteService.noteLimits.tagsMaxCount; i++)
+    tagsTest.push(`Tag ${i}`);
 const noteData = {
     title: titleTest,
     content: contentTest,
@@ -91,8 +97,13 @@ describe('Notes API', () => {
 
             it('Too many tags.', async () => {
                 const tags = [];
-                for (let i = 0; i < noteService.noteLimits.tagsMaxCount + 1; i++) tags.push('a');
-                
+                for (
+                    let i = 0;
+                    i < noteService.noteLimits.tagsMaxCount + 1;
+                    i++
+                )
+                    tags.push('a');
+
                 const res = await request(app)
                     .post(basePath)
                     .send({
@@ -107,8 +118,10 @@ describe('Notes API', () => {
             it('Long tags.', async () => {
                 const { _id } = await noteService.create(noteData);
 
-                const tags = ['a'.repeat(noteService.noteLimits.tagsMaxLength + 1)];
-                
+                const tags = [
+                    'a'.repeat(noteService.noteLimits.tagsMaxLength + 1),
+                ];
+
                 const res = await request(app)
                     .post(basePath)
                     .send({
@@ -142,7 +155,7 @@ describe('Notes API', () => {
         });
     });
 
-    describe('PUT /api/notes', () => {
+    describe('PUT /api/notes/:noteId', () => {
         it('With the right fields.', async () => {
             const { _id, content, title, tags } =
                 await noteService.create(noteData);
@@ -284,9 +297,14 @@ describe('Notes API', () => {
                 const { _id } = await noteService.create(noteData);
 
                 const tags = [];
-                for (let i = 0; i < noteService.noteLimits.tagsMaxCount + 1; i++) tags.push('a');
+                for (
+                    let i = 0;
+                    i < noteService.noteLimits.tagsMaxCount + 1;
+                    i++
+                )
+                    tags.push('a');
                 const updatedData = { tags };
-                
+
                 const res = await request(app)
                     .put(`${basePath}/${_id}`)
                     .send(updatedData);
@@ -299,9 +317,11 @@ describe('Notes API', () => {
                 const { _id } = await noteService.create(noteData);
 
                 const updatedData = {
-                    tags: ['a'.repeat(noteService.noteLimits.tagsMaxLength + 1)]
+                    tags: [
+                        'a'.repeat(noteService.noteLimits.tagsMaxLength + 1),
+                    ],
                 };
-                
+
                 const res = await request(app)
                     .put(`${basePath}/${_id}`)
                     .send(updatedData);
@@ -320,8 +340,55 @@ describe('Notes API', () => {
                     .send({});
 
                 expect(res.statusCode).toBe(404);
-                expect(res.body.error).toBe(new NotFound(`Note with id '${_id}'`).message);
-            })
+                expect(res.body.error).toBe(
+                    new NotFound(`Note with id '${_id}'`).message
+                );
+            });
+
+            it('Invalid id.', async () => {
+                const _id = 'a';
+                const res = await request(app)
+                    .put(`${basePath}/${_id}`)
+                    .send({});
+                expect(res.statusCode).toBe(400);
+                expect(res.body.error).toMatchObject(
+                    new InvalidId(_id).message
+                );
+            });
+        });
+    });
+
+    describe('DELETE /api/notes/:noteId', () => {
+        it('Do it if the note exists.', async () => {
+            const { _id } = await noteService.create(noteData);
+
+            const res = await request(app).delete(`${basePath}/${_id}`);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.noteId).toMatchObject(_id.toString());
+        });
+
+        describe('Do not do it if...', () => {
+            it('It does not exist anymore.', async () => {
+                const { _id } = await noteService.create(noteData);
+                await noteService.remove(_id);
+
+                const res = await request(app).delete(`${basePath}/${_id}`);
+
+                expect(res.statusCode).toBe(404);
+                expect(res.body.error).toMatchObject(
+                    new NotFound(`Note with id '${_id}'`).message
+                );
+            });
+
+            it('Invalid id.', async () => {
+                const _id = 'a';
+                const res = await request(app).delete(`${basePath}/${_id}`);
+                expect(res.statusCode).toBe(400);
+                expect(res.body.error).toMatchObject(
+                    new InvalidId(_id).message
+                );
+            });
         });
     });
 });
