@@ -3,9 +3,11 @@ export const theme = {
         primary: '#A2AF9B',
         secondary: '#DCCFC0',
         background: '#FAF9EE',
+        border: '#EEEEEE',
         text: {
             color: '#A2AF9B',
             hover: '#6e7a77ff',
+            selected: '#EEEEEE',
         },
     },
     font: {
@@ -13,6 +15,7 @@ export const theme = {
             small: '0.875rem',
             base: '1rem',
             large: '1.25rem',
+            xl: '2rem',
             title: '3rem',
         },
         family: 'Inter, sans-serif',
