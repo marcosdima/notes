@@ -9,7 +9,7 @@ export const HomeTitle = styled.div`
 export const HomeUpPart = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 2%;
+    padding: 1%;
     border-bottom: ${({ theme }) => theme.border.small };
 `;
 
