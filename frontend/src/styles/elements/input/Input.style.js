@@ -15,6 +15,8 @@ export const InputLabel = styled.div`
 
 export const InputWrapper = styled.div`
     justify-content: center;
+    display: flex;
+    flex-direction: column;
 `;
 
 export default styled.input`
