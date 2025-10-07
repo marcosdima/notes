@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SideBarListStyle, SideBarButtonStyle, SideBarStyle } from '../styles/elements/SideBar.style';
+import { SideBarListStyle, SideBarButtonStyle, SideBarStyle } from '../styles/components/SideBar.style';
 import { appRoutes } from '../utils/routes';
 import TitleStyle from '../styles/elements/Title.style';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +26,9 @@ const SideBar = () => {
 
     return (
         <SideBarStyle>
-            <TitleStyle>Your Notes</TitleStyle>
+            <div style={{margin: '1.5rem'}}>
+                <TitleStyle>Notebook</TitleStyle>
+            </div>
             <SideBarListStyle>
                 {
                     buttons.map(({ label, to }, i) => (
