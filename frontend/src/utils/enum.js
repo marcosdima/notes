@@ -1,4 +1,4 @@
-export const ThunkResult = Object.freeze({
+export const Status = Object.freeze({
     succeeded: 'succeeded',
     loading: 'laoding',
     error: 'error',
