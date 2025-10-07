@@ -1,16 +1,13 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import SideBar from './components/SideBar';
+import AppStyle from './styles/components/App.style';
 
 function App() {
     return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/notes/a">Note</Link>
-                <Link to="/notes/create/a">Create Note</Link>
-            </nav>
+        <AppStyle>
+            <SideBar></SideBar>
             <Outlet />
-        </div>
+        </AppStyle>
     );
 }
 
