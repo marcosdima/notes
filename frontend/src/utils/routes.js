@@ -1,5 +1,6 @@
 export const apiRoutes = Object.freeze({
     getNotes: '/api/notes',
+    createNotes: '/api/notes'
 });
 
 export const appRoutes = Object.freeze({
