@@ -14,6 +14,7 @@ export const InputLabel = styled.div`
 `;
 
 export const InputWrapper = styled.div`
+    width: 100%;
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -21,7 +22,6 @@ export const InputWrapper = styled.div`
 
 export default styled.input`
     padding: 8px 12px;
-    width: 100%;
     border: none;
     outline: none;
     border-radius: 5px;

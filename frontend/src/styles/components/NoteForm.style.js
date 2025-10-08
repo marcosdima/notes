@@ -7,7 +7,7 @@ export const NoteFormTitle = styled(TitleStyle)`
 
 export default styled.div`
     width: 100%;
-    padding: 1rem;
+    padding: 3rem;
     display: flex;
     gap: 1rem;
     flex-direction: column;
