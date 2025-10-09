@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SideBarListStyle, SideBarStyle } from '../styles/components/SideBar.style';
 import { appRoutes } from '../utils/routes';
+import { Menu } from '../utils/enum';
 import TitleStyle from '../styles/elements/Title.style';
 import { useNavigate } from 'react-router-dom';
 import Button from './input/Button';
@@ -9,16 +10,12 @@ const SideBar = () => {
     const [curr, setCurr] = useState();
     const navigate = useNavigate();
 
-    const buttons = [
-        {
-            label: 'All',
-            to: appRoutes.home.replace(':filter', 'all'),
-        },
-        {
-            label: 'Favorites',
-            to:  appRoutes.home.replace(':filter', 'favorite')
-        },
-    ];
+    const buttons = Object.values(Menu).map(
+        (str) => ({
+            label: str.charAt(0).toUpperCase() + str.slice(1),
+            to: appRoutes.home.replace(':filter', str),
+        })
+    );
 
     const handleSelection = (i, to) => {
         setCurr(i);
