@@ -1,7 +1,7 @@
 import { updateArchived, updateFavorite } from '../../store/notes/thunks';
 import { PopOnHover } from '../../styles/animations';
 import NoteActionsStyle from '../../styles/components/NoteActions.style';
-import { Bin, Heart, Archive } from 'iconoir-react';
+import { Bin, Heart, Archive, ShareIos } from 'iconoir-react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -31,15 +31,17 @@ const NoteActions = ({ style, noteId }) => {
             <PopOnHover title='Delete'>
                 <Bin/>
             </PopOnHover>
-            <PopOnHover title='Archive'>
-                <Archive
+            <PopOnHover title={ !note.archived ? 'Archive' : 'Unarchive'}>
+                <div
                     onClick={
                         (e) => {
                             e.stopPropagation();
                             dispatch(updateArchived({ noteId, asArchived: !note.archived }));
                         }
                     }
-                />
+                >
+                    { note.archived ? <ShareIos/> : <Archive/>}
+                </div>
             </PopOnHover>
         </NoteActionsStyle>
     );
