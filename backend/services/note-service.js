@@ -8,6 +8,14 @@ class NoteService extends BaseService {
         super(Note);
     }
 
+    async setFavorite(noteId, value) {
+        return noteService.update(noteId, { favorite: value });
+    }
+
+    async setArchived(noteId, value) {
+        return noteService.update(noteId, { archived: value });
+    }
+
     validTitle(title) {
         const { titleMax } = this.noteLimits;
         return title.length > 0 && title.length <= titleMax;

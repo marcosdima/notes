@@ -73,8 +73,48 @@ notesRouter.put('/:noteId', async (req, res) => {
     if (invalidFields.length > 0) throw new InvalidFields(invalidFields);
     if (Object.entries(auxData).length === 0) throw new MissingFields(['any']);
 
-    const noteCreated = await noteService.update(noteId, auxData);
-    res.status(201).send(noteCreated);
+    const noteUpdated = await noteService.update(noteId, auxData);
+    res.status(201).send(noteUpdated);
+});
+
+notesRouter.put('/:noteId/favorite', async (req, res) => {
+    const { noteId } = req.params;
+
+    // Validate id.
+    validateId(noteId);
+
+    const noteUpdated = await noteService.setFavorite(noteId, true);
+    res.status(201).send(noteUpdated);
+});
+
+notesRouter.put('/:noteId/unfavorite', async (req, res) => {
+    const { noteId } = req.params;
+
+    // Validate id.
+    validateId(noteId);
+
+    const noteUpdated = await noteService.setFavorite(noteId, false);
+    res.status(201).send(noteUpdated);
+});
+
+notesRouter.put('/:noteId/archive', async (req, res) => {
+    const { noteId } = req.params;
+
+    // Validate id.
+    validateId(noteId);
+
+    const noteUpdated = await noteService.setArchived(noteId, true);
+    res.status(201).send(noteUpdated);
+});
+
+notesRouter.put('/:noteId/unarchive', async (req, res) => {
+    const { noteId } = req.params;
+
+    // Validate id.
+    validateId(noteId);
+
+   const noteUpdated = await noteService.setArchived(noteId, false);
+    res.status(201).send(noteUpdated);
 });
 
 notesRouter.delete('/:noteId', async (req, res) => {

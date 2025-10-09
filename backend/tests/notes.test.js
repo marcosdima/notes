@@ -42,6 +42,7 @@ describe('Notes API', () => {
         });
 
         it('Even with no tags.', async () => {
+            // eslint-disable-next-line no-unused-vars
             const { tags, ...auxData } = noteData;
             const res = await request(app).post(basePath).send(auxData);
             expect(res.statusCode).toBe(201);
@@ -50,6 +51,7 @@ describe('Notes API', () => {
 
         describe("Should'n create a note...", () => {
             it('No title.', async () => {
+                // eslint-disable-next-line no-unused-vars
                 const { title, ...auxData } = noteData;
                 const res = await request(app).post(basePath).send(auxData);
 
@@ -116,8 +118,6 @@ describe('Notes API', () => {
             });
 
             it('Long tags.', async () => {
-                const { _id } = await noteService.create(noteData);
-
                 const tags = [
                     'a'.repeat(noteService.noteLimits.tagsMaxLength + 1),
                 ];
@@ -157,7 +157,7 @@ describe('Notes API', () => {
 
     describe('PUT /api/notes/:noteId', () => {
         it('With the right fields.', async () => {
-            const { _id, content, title, tags } =
+            const { _id, content, title } =
                 await noteService.create(noteData);
 
             const updatedData = {
@@ -216,7 +216,7 @@ describe('Notes API', () => {
         });
 
         it('Even just tags.', async () => {
-            const { _id, content, tags, title } =
+            const { _id, content, title } =
                 await noteService.create(noteData);
 
             const updatedData = {
@@ -389,6 +389,80 @@ describe('Notes API', () => {
                     new InvalidId(_id).message
                 );
             });
+        });
+    });
+
+    describe('PUT /api/notes/:noteId/favorite', () => {
+        it('Set as favorite', async () => {
+            const { _id, favorite: defFav } = await noteService.create(noteData);
+            expect(defFav).toBeFalsy();
+
+            const {
+                statusCode,
+                body: {
+                    favorite,
+                },
+            } = await request(app)
+                .put(`${basePath}/${_id}/favorite`);
+
+            expect(statusCode).toBe(201);
+            expect(favorite).toBeTruthy();
+        });
+    });
+
+    describe('PUT /api/notes/:noteId/unfavorite', () => {
+        it('Unset favorite', async () => {
+            const { _id } = await noteService.create(noteData);
+            const { favorite: settedAsTrue } = await noteService.setFavorite(_id, true);
+            expect(settedAsTrue).toBeTruthy();
+
+            const {
+                statusCode,
+                body: {
+                    favorite,
+                },
+            } = await request(app)
+                .put(`${basePath}/${_id}/unfavorite`);
+
+            expect(statusCode).toBe(201);
+            expect(favorite).toBeFalsy();
+        });
+    });
+
+    describe('PUT /api/notes/:noteId/archive', () => {
+        it('Set as archived', async () => {
+            const { _id, archived: defArch } = await noteService.create(noteData);
+            expect(defArch).toBeFalsy();
+
+            const {
+                statusCode,
+                body: {
+                    archived,
+                },
+            } = await request(app)
+                .put(`${basePath}/${_id}/archive`);
+
+            expect(statusCode).toBe(201);
+            expect(archived).toBeTruthy();
+        });
+    });
+
+    describe('PUT /api/notes/:noteId/unarchive', () => {
+        it('Unarchive', async () => {
+            const { _id } = await noteService.create(noteData);
+            const { archived: defArch } = await noteService.setArchived(_id, true);
+            expect(defArch).toBeTruthy();
+
+            const {
+                statusCode,
+                body: {
+                    archived,
+                },
+            } = await request(app)
+                .put(`${basePath}/${_id}/unarchive`);
+
+            expect(statusCode).toBe(201);
+            expect(archived).toBeFalsy();
         });
     });
 });
