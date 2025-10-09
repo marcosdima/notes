@@ -20,7 +20,7 @@ export const theme = {
         family: 'Inter, sans-serif',
     },
     border: {
-        small: '0.2rem solid #DCE4D2',
+        small: '0.2rem solid #DCCFC0',
         smallDark: '0.2rem solid #4E5A56',
     }
 };
