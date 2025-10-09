@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNotes, createNote, updateFavorite, updateArchived } from './thunks.js';
+import { fetchNotes, createNote, updateFavorite, updateArchived, deleteNote } from './thunks.js';
 import { Status } from '../../utils/enum.js';
 
 const notesSlice = createSlice({
@@ -111,6 +111,14 @@ const notesSlice = createSlice({
                 (state, action) => {
                     state.updateStatus = Status.error;
                     state.updateError = action.error.message;
+                },
+            )
+            
+            // deleteNote
+            .addCase(
+                deleteNote.fulfilled,
+                (state, { payload }) => {
+                    state.notes = state.notes.filter(({ _id }) => _id !== payload);
                 },
             );
     },

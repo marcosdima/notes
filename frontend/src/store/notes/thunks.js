@@ -20,3 +20,8 @@ export const updateArchived = createAsyncThunk(
     'notes/updateArchived',
     async ({ noteId, asArchived }) => await api.updateArchived(noteId, asArchived),
 );
+
+export const deleteNote = createAsyncThunk(
+    'notes/deleteNote',
+    async (noteId) => await api.deleteNote(noteId),
+);

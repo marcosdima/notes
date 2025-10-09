@@ -1,4 +1,4 @@
-import { updateArchived, updateFavorite } from '../../store/notes/thunks';
+import { deleteNote, updateArchived, updateFavorite } from '../../store/notes/thunks';
 import { PopOnHover } from '../../styles/animations';
 import NoteActionsStyle from '../../styles/components/NoteActions.style';
 import { Bin, Heart, Archive, ShareIos } from 'iconoir-react';
@@ -29,7 +29,14 @@ const NoteActions = ({ style, noteId }) => {
                 />
             </PopOnHover>
             <PopOnHover title='Delete'>
-                <Bin/>
+                <Bin
+                    onClick={
+                        (e) => {
+                            e.stopPropagation();
+                            dispatch(deleteNote(noteId));
+                        }
+                    }
+                />
             </PopOnHover>
             <PopOnHover title={ !note.archived ? 'Archive' : 'Unarchive'}>
                 <div

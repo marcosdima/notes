@@ -5,6 +5,7 @@ export const apiRoutes = Object.freeze({
     unfavorite: '/api/notes/:noteId/unfavorite',
     archive: '/api/notes/:noteId/archive',
     unarchive: '/api/notes/:noteId/unarchive',
+    deleteNote: '/api/notes/:noteId'
 });
 
 export const appRoutes = Object.freeze({

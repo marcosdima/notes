@@ -39,6 +39,15 @@ const updateArchived = async (id, asArchived) => {
     }
 };
 
+const deleteNote = async (id) => {
+    try {
+        const { data: { noteId } } = await axios.delete(apiRoutes.deleteNote.replace(':noteId', id));
+        return noteId;
+    } catch (err) {
+        handleError(err);
+    }
+};
+
 const handleError = (err) => { throw new Error(err.response.data.error); };
 
 export default {
@@ -46,4 +55,5 @@ export default {
     createNote,
     updateFavorite,
     updateArchived,
+    deleteNote,
 };
