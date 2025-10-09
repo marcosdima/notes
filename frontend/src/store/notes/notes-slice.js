@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNotes, createANote } from './thunks.js';
+import { fetchNotes, createNote, updateFavorite, updateArchived } from './thunks.js';
 import { Status } from '../../utils/enum.js';
 
 const notesSlice = createSlice({
@@ -8,8 +8,10 @@ const notesSlice = createSlice({
         notes: [],
         fetchError: '',
         createError: '',
+        updateError: '',
         fetchStatus: Status.idle,
         createStatus: Status.idle,
+        updateStatus: '',
     },
     reducers: {
         cleanStatus: (state) => {
@@ -21,32 +23,96 @@ const notesSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // fetchNotes
-            .addCase(fetchNotes.pending, (state) => {
-                state.fetchStatus = Status.loading;
-            })
-            .addCase(fetchNotes.fulfilled, (state, action) => {
-                state.fetchStatus = Status.succeeded;
-                state.notes = action.payload;
-            })
-            .addCase(fetchNotes.rejected, (state, action) => {
-                state.fetchStatus = Status.error;
-                state.fetchError = action.error;
-            })
+            .addCase(
+                fetchNotes.pending,
+                (state) => {
+                    state.fetchStatus = Status.loading;
+                },
+            )
+            .addCase(
+                fetchNotes.fulfilled,
+                (state, action) => {
+                    state.fetchStatus = Status.succeeded;
+                    state.notes = action.payload;
+                },
+            )
+            .addCase(
+                fetchNotes.rejected,
+                (state, action) => {
+                    state.fetchStatus = Status.error;
+                    state.fetchError = action.error;
+                },
+            )
 
             // createNote
-            .addCase(createANote.pending, (state) => {
-                state.fetchStatus = Status.loading;
-            })
             .addCase(
-                createANote.fulfilled,
+                createNote.pending,
+                (state) => {
+                    state.fetchStatus = Status.loading;
+                },
+            )
+            .addCase(
+                createNote.fulfilled,
                 (state, action) => {
                     state.notes = state.notes.concat([action.payload]);
                     state.createStatus = Status.succeeded;
-                })
-            .addCase(createANote.rejected, (state, action) => {
-                state.createStatus = Status.error;
-                state.createError = action.error.message;
-            });
+                },
+            )
+            .addCase(
+                createNote.rejected,
+                (state, action) => {
+                    state.createStatus = Status.error;
+                    state.createError = action.error.message;
+                },
+            )
+
+            // updateFavorite
+            .addCase(
+                updateFavorite.pending,
+                (state) => {
+                    state.updateStatus = Status.loading;
+                },
+            )
+            .addCase(
+                updateFavorite.fulfilled,
+                (state, { payload }) => {
+                    state.notes = state.notes.map(
+                        (note) => note._id === payload._id ? payload : note
+                    );
+                    state.updateStatus = Status.succeeded;
+                },
+            )
+            .addCase(
+                updateFavorite.rejected,
+                (state, action) => {
+                    state.updateStatus = Status.error;
+                    state.updateError = action.error.message;
+                },
+            )
+
+            // updateFavorite
+            .addCase(
+                updateArchived.pending,
+                (state) => {
+                    state.updateStatus = Status.loading;
+                },
+            )
+            .addCase(
+                updateArchived.fulfilled,
+                (state, { payload }) => {
+                    state.notes = state.notes.map(
+                        (note) => note._id === payload._id ? payload : note
+                    );
+                    state.updateStatus = Status.succeeded;
+                },
+            )
+            .addCase(
+                updateArchived.rejected,
+                (state, action) => {
+                    state.updateStatus = Status.error;
+                    state.updateError = action.error.message;
+                },
+            );
     },
 });
 

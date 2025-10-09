@@ -1,12 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getNotes, createNote } from './api.js';
+import api from './api.js';
 
 export const fetchNotes = createAsyncThunk(
     'notes/fetch',
-    async () => await getNotes(),
+    async () => await api.getNotes(),
 );
 
-export const createANote = createAsyncThunk(
+export const createNote = createAsyncThunk(
     'notes/create',
-    async (data) => await createNote(data),
+    async (data) => await api.createNote(data),
+);
+
+export const updateFavorite = createAsyncThunk(
+    'notes/updateFavorite',
+    async ({ noteId, asFavorite }) => await api.updateFavorite(noteId, asFavorite),
+);
+
+export const updateArchived = createAsyncThunk(
+    'notes/updateArchived',
+    async ({ noteId, asArchived }) => await api.updateArchived(noteId, asArchived),
 );
