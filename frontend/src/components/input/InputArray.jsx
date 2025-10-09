@@ -4,6 +4,7 @@ import InputBase from './InputBase';
 import Input from './Input';
 import Button from './Button';
 import { useState } from 'react';
+import Chips from './Chips';
 
 const InputArray = ({ label, style, query, setQuery, placeholder }) => {
     const [string, setString] = useState('');
@@ -21,17 +22,15 @@ const InputArray = ({ label, style, query, setQuery, placeholder }) => {
                 <Input
                     placeholder={placeholder}
                     query={string}
-                    setQuery={setString} 
+                    setQuery={setString}
                 />
                 <Button
                     text='Add'
                     onClick={handleClick}
-                    disabled={string === ''}
+                    disabled={string === '' || query.includes(string)}
                 />
             </InputArrayStyle>
-            {
-                query.map((tag) => <SimpleTextStyle>{tag}</SimpleTextStyle>)
-            }
+            <Chips arr={query} updateArr={setQuery}/>
         </InputBase>
     );
 };
