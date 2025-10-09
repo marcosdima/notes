@@ -21,7 +21,7 @@ export const NoteWrapper = styled.div`
 export const NoteContentStyle = styled.div`
     max-width: 100%;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* cantidad de líneas visibles */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -34,13 +34,24 @@ export const NoteBottom = styled.div`
     justify-content: space-between;
 `;
 
+export const NotesTitle = styled.div`
+    padding-left: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+`;
 
-export default styled.div`
-    padding: 2rem;
-    min-width: 100%;
+export const NotesBody = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: space-evenly;
+`;
+
+export default styled.div`
+    padding: 2rem;
+    justify-content: space-evenly;
+    height: 100%;
+    overflow: auto;
 `;
