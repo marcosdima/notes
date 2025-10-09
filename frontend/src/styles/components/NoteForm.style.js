@@ -13,4 +13,5 @@ export default styled.div`
     flex-direction: column;
     align-items: left;
     background: ${({ theme }) => theme.colors.primary };
+    overflow: auto;
 `;

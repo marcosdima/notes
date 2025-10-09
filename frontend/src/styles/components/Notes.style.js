@@ -28,6 +28,13 @@ export const NoteContentStyle = styled.div`
     white-space: normal;
 `;
 
+export const NoteBottom = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+
 export default styled.div`
     padding: 2rem;
     min-width: 100%;

@@ -7,6 +7,7 @@ export default styled.div`
     letter-spacing: 0.5px;
     cursor: default;
     transition: color 0.3s ease;
+    width: fit-content;
 
     &:hover {
         color: ${({ theme }) => theme.colors.text.hover};

@@ -13,10 +13,15 @@ export const HomeUpPart = styled.div`
     border-bottom: ${({ theme }) => theme.border.small };
 `;
 
+export const HomeBottomPart = styled.div`
+    height: 100%;
+    overflow: auto;
+`;
+
 export default styled.div`
     background: ${({ theme }) => theme.colors.primary };
-    height: 100%;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    overflow: auto;
 `;
 
