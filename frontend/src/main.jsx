@@ -6,12 +6,14 @@ import router from './router.jsx';
 import { RouterProvider } from 'react-router-dom';
 import { store } from './store/index.js';
 import { Provider } from 'react-redux';
+import GlobalStyle from './styles/global.style.js';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <RouterProvider router={router} />
+                <GlobalStyle/>
+                <RouterProvider router={router}/>
             </ThemeProvider>
         </Provider>
     </StrictMode>,
