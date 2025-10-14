@@ -11,6 +11,11 @@ export const ButtonStyle = styled(motion.div)`
     margin: 4vh;
     cursor: pointer;
     user-select: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: ${({ theme, selected }) => selected ? theme.colors.text.selected : theme.colors.text.hover};
+    }
 `;
 
 export const LineStyle = styled(motion.div)`

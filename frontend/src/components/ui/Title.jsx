@@ -7,12 +7,16 @@ const TitleStyle = styled(motion.div)`
     padding: 1rem;
     width: fit-content;
     user-select: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: ${({ theme }) => theme.colors.text.hover};
+    }
 `;
 
 const Title = ({ children }) => (
     <TitleStyle
-        initial={{ opacity: 0.7 }}
-        whileHover={{ opacity: 1, scale: 1.2 }}
+        whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.8 }}
         transition={{ type: 'spring', duration: 0.4 }}
     >
