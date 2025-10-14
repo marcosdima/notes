@@ -14,13 +14,13 @@ export const theme = {
             small: '0.875rem',
             base: '1rem',
             large: '1.25rem',
-            xl: '2rem',
-            title: '3rem',
+            xl: 'clamp(0.5rem, 1vh + 1vw + 1rem, 2rem)',
+            title: 'clamp(0.5rem, 2vh + 2vw + 2rem, 5rem)',
         },
         family: 'Inter, sans-serif',
     },
     border: {
-        small: '0.2rem solid #DCCFC0',
-        smallDark: '0.2rem solid #4E5A56',
+        small: '0.4rem solid #DCCFC0',
+        smallDark: '0.4rem solid #4E5A56',
     }
 };
