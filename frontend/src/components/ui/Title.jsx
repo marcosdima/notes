@@ -14,11 +14,12 @@ const TitleStyle = styled(motion.div)`
     }
 `;
 
-const Title = ({ children }) => (
+const Title = ({ children, ...props }) => (
     <TitleStyle
         whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.8 }}
         transition={{ type: 'spring', duration: 0.4 }}
+        {...props}
     >
         {children}
     </TitleStyle>
