@@ -1,15 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Menu } from '../../../../utils/enum.js';
 import { appRoutes } from '../../../../utils/routes.js';
 import ButtonsStyle, { ButtonStyle, LineStyle } from './Buttons.style.js';
 import { useState } from 'react';
 
-const Button = ({ label, mouseOn, ...props }) => {
+const SideBarButton = ({ label, mouseOn, ...props }) => {
     return (
         <ButtonStyle
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            
             {...props}
         >
             {label}
@@ -25,26 +22,23 @@ const Button = ({ label, mouseOn, ...props }) => {
 const Buttons = () => {
     const navigate = useNavigate();
     const [mouseOn, updateMouseOn] = useState(0);
-    const [selected, updateSelected] = useState(0);
+    const { filter } = useParams();
 
     const buttons = Object.values(Menu).map(
         (str) => ({
             label: str.charAt(0).toUpperCase() + str.slice(1),
-            to: appRoutes.notes.replace(':filter', str),
+            to: str,
         })
     );
 
-    const onClick = (index, to) => {
-        updateSelected(index);
-        navigate(to);
-    };
+    const onClick = (to) =>  navigate(appRoutes.notes.replace(':filter', to));
 
     const arr = buttons.map(({ label, to }, index) => (
-        <Button
+        <SideBarButton
             onMouseEnter={() => updateMouseOn(index)}
-            onClick={() => onClick(index, to)}
-            selected={selected === index}
+            onClick={() => onClick(to)}
             mouseOn={mouseOn === index}
+            selected={filter === to}
             label={label}
             key={index}
         />
