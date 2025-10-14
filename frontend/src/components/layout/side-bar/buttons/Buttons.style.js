@@ -1,21 +1,9 @@
 import { motion } from 'motion/react';
 import styled from 'styled-components';
+import Button from '../../../ui/Button';
 
-export const ButtonStyle = styled(motion.div)`
-    background-color: ${({ theme, selected }) => selected ? theme.colors.primary : 'none'};
-    color: ${({ theme, selected }) => selected ? theme.colors.text.selected : theme.colors.text.color};
-    font-size: ${({ theme }) => theme.font.size.xl};
-    border-radius: 10px;
-    text-align: center;
-    padding: 2vh;
+export const ButtonStyle = styled(Button)`
     margin: 4vh;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.3s ease;
-
-    &:hover {
-        color: ${({ theme, selected }) => selected ? theme.colors.text.selected : theme.colors.text.hover};
-    }
 `;
 
 export const LineStyle = styled(motion.div)`
