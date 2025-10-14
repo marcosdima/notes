@@ -9,7 +9,8 @@ export const apiRoutes = Object.freeze({
 });
 
 export const appRoutes = Object.freeze({
-    home: '/:filter',
-    note: '/notes/:id',
+    home: '/',
+    notes: '/notes/:filter',
+    note: '/notes/note/:id',
     noteForm: '/notes/form/:id',
 });
