@@ -22,5 +22,6 @@ export const theme = {
     border: {
         small: '0.4rem solid #DCCFC0',
         smallDark: '0.4rem solid #4E5A56',
+        smallDarkOpaque: '0.4rem solid #4e5a566b',
     }
 };
