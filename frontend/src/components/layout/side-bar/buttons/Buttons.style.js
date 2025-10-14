@@ -3,12 +3,14 @@ import styled from 'styled-components';
 
 export const ButtonStyle = styled(motion.div)`
     background-color: ${({ theme, selected }) => selected ? theme.colors.primary : 'none'};
+    color: ${({ theme, selected }) => selected ? theme.colors.text.selected : theme.colors.text.color};
     font-size: ${({ theme }) => theme.font.size.xl};
     border-radius: 10px;
     text-align: center;
     padding: 2vh;
     margin: 4vh;
     cursor: pointer;
+    user-select: none;
 `;
 
 export const LineStyle = styled(motion.div)`

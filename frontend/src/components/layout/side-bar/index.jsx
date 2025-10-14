@@ -1,6 +1,6 @@
 import Title from '../../ui/Title';
 import SideBarStyle from './SideBar.style';
-import Buttons from './Buttons';
+import Buttons from './buttons';
 
 const SideBar = () => {
     return (

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Menu } from '../../../utils/enum.js';
-import { appRoutes } from '../../../utils/routes.js';
+import { Menu } from '../../../../utils/enum.js';
+import { appRoutes } from '../../../../utils/routes.js';
 import ButtonsStyle, { ButtonStyle, LineStyle } from './Buttons.style.js';
 import { useState } from 'react';
 
@@ -30,13 +30,13 @@ const Buttons = () => {
     const buttons = Object.values(Menu).map(
         (str) => ({
             label: str.charAt(0).toUpperCase() + str.slice(1),
-            to: appRoutes.home.replace(':filter', str),
+            to: appRoutes.notes.replace(':filter', str),
         })
     );
 
     const onClick = (index, to) => {
         updateSelected(index);
-        //navigate(to);
+        navigate(to);
     };
 
     const arr = buttons.map(({ label, to }, index) => (
